@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { uploadData, getUrl } from "aws-amplify/storage";
 
 const SignUp = () => {
   const { handleSignUp } = useAuth();
@@ -16,19 +17,42 @@ const SignUp = () => {
   const formSubmit = async (data) => {
     console.log(data);
     console.log(data.image[0]);
+
     try {
-      const { nextStep } = await handleSignUp(
-        data.name,
-        data.email,
-        data.image[0].name,
-        data.password
-      );
-      console.log(nextStep);
-      switch(nextStep.signUpStep){
-        case "CONFIRM_SIGN_UP":
-            navigate("/confirm-sign-up");
-            break;
-        default: 'Error' 
+      const random = Math.floor(Math.random() * 10000);
+      const fileName = `${random}-${data.image[0].name}`;
+      const result = await uploadData({
+        key: fileName,
+        data: data.image[0],
+      }).result;
+      console.log("Succeeded: ", result);
+
+      if (result.key) {
+        const getUrlResult = await getUrl({
+          key: result.key,
+          options: {
+            accessLevel: "guest", // can be 'private', 'protected', or 'guest' but defaults to `guest`
+          },
+        });
+        console.log(getUrlResult);
+        const imageFile = getUrlResult.url.origin + getUrlResult.url.pathname;
+        console.log(imageFile);
+        if (getUrlResult.url) {
+          const { nextStep } = await handleSignUp(
+            data.name,
+            data.email,
+            imageFile,
+            data.password
+          );
+          console.log(nextStep);
+          switch (nextStep.signUpStep) {
+            case "CONFIRM_SIGN_UP":
+              navigate("/confirm-sign-up");
+              break;
+            default:
+              break;
+          }
+        }
       }
     } catch (error) {
       console.error(error);
@@ -56,7 +80,7 @@ const SignUp = () => {
               <input
                 {...register("name", { required: true })}
                 type="text"
-                placeholder="email"
+                placeholder="Full Name"
                 className="input input-bordered"
               />
               {errors.name && (
@@ -70,7 +94,7 @@ const SignUp = () => {
               <input
                 {...register("email", { required: true })}
                 type="email"
-                placeholder="email"
+                placeholder="Email Address"
                 className="input input-bordered"
               />
               {errors.email && (
@@ -82,27 +106,44 @@ const SignUp = () => {
                 <span className="label-text">Image</span>
               </label>
               <input
-                {...register("image", { required: true })}
+                {...register("image")}
                 type="file"
                 placeholder="Upload your image"
                 className="input input-bordered"
               />
-              {errors.image && (
-                <span className="text-red-600">Email is required</span>
-              )}
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
               <input
-                {...register("password", { required: true })}
+                {...register("password", {
+                  required: true,
+                  minLength: 8,
+                  maxLength: 20,
+                  pattern:/(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])./
+                })}
                 type="password"
-                placeholder="password"
+                placeholder="Password"
                 className="input input-bordered"
               />
-              {errors.password && (
+              {errors.password?.type === "required" && (
                 <span className="text-red-600">Password is required</span>
+              )}
+              {errors.password?.type === "minLength" && (
+                <span className="text-red-600">
+                  Password must be 6 characters
+                </span>
+              )}
+              {errors.password?.type === "maxLength" && (
+                <span className="text-red-600">
+                  Password must be less then 20 characters
+                </span>
+              )}
+              {errors.password?.type === "pattern" && (
+                <span className="text-red-600">
+                  Password must have one uppercase, one lowercase, one number and one special character
+                </span>
               )}
             </div>
             <div className="form-control mt-6">

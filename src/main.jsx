@@ -6,8 +6,8 @@ import { router } from "./Routes/Routes";
 import { HelmetProvider } from "react-helmet-async";
 import AuthProvider from "./Provider/AuthProvider";
 import { Amplify } from 'aws-amplify';
-import config from './amplifyconfiguration.json';
-Amplify.configure(config);
+import amplifyconfig from './amplifyconfiguration.json';
+Amplify.configure(amplifyconfig);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

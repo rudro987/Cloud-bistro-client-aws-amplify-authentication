@@ -11,7 +11,7 @@ import { Hub } from "aws-amplify/utils";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleSignUp = (name, email, image, password) => {
     setLoading(true);
@@ -58,15 +58,21 @@ const AuthProvider = ({ children }) => {
     const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
         case "signedIn":
-          localStorage.setItem("userData", JSON.stringify(payload.data.signInDetails.loginId));
-          console.log('user signed in');
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(payload.data.signInDetails.loginId)
+          );
+          console.log("user signed in");
           setUser(payload.data.signInDetails.loginId);
           setLoading(false);
           break;
         case "signedOut":
           localStorage.removeItem("userData");
-          console.log('user signed out');
+          console.log("user signed out");
           setUser(null);
+          setLoading(false);
+          break;
+        case "signInWithRedirect":
           setLoading(false);
           break;
         default:
@@ -74,8 +80,6 @@ const AuthProvider = ({ children }) => {
       }
     });
     return () => hubListenerCancelToken();
-
-
 
     // const currentAuthenticatedUser = async () => {
     //   try {
@@ -91,9 +95,7 @@ const AuthProvider = ({ children }) => {
     // }
     // currentAuthenticatedUser();
     // return () => currentAuthenticatedUser();
-    
   }, []);
-  
 
   console.log(user);
   console.log(loading);

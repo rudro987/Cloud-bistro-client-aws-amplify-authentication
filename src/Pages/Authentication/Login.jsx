@@ -27,9 +27,9 @@ const Login = () => {
     reset();
   };
 
-  if (loading) {
-    return <Loader></Loader>;
-  }
+  // if (loading) {
+  //   return <Loader></Loader>;
+  // }
 
   return (
     <div className="hero min-h-screen bg-base-200">

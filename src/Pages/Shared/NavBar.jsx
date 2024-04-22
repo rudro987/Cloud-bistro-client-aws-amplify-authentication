@@ -26,9 +26,9 @@ const NavBar = () => {
     </>
   );
 
-  if (loading) {
-    return <Loader></Loader>;
-  }
+  // if (loading) {
+  //   return <Loader></Loader>;
+  // }
 
   return (
     <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-2xl ">
