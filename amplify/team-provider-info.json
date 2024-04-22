@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cloudbistro-dev-e1fd2-authRole",
+      "UnauthRoleArn": "arn:aws:iam::139972284545:role/amplify-cloudbistro-dev-e1fd2-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::139972284545:role/amplify-cloudbistro-dev-e1fd2-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-cloudbistro-dev-e1fd2-deployment",
+      "UnauthRoleName": "amplify-cloudbistro-dev-e1fd2-unauthRole",
+      "StackName": "amplify-cloudbistro-dev-e1fd2",
+      "StackId": "arn:aws:cloudformation:us-west-1:139972284545:stack/amplify-cloudbistro-dev-e1fd2/223e9df0-ffd5-11ee-ad76-0248e59b5287",
+      "AmplifyAppId": "d21f3jqyhx0cal"
+    },
+    "categories": {
+      "auth": {
+        "cloudbistro8d90b539": {}
+      },
+      "storage": {
+        "s389818060CloudBistro": {}
+      }
+    }
+  }
+}

@@ -8,6 +8,8 @@ import Order from "../Pages/Order/Order/Order";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
 import ConfirmSignUp from "../Pages/Authentication/ConfirmSignUp";
+import Secrets from "../Pages/Secrets/Secrets"
+import PrivateRoutes from "./PrivateRoutes";
 
   export const router = createBrowserRouter([
     {
@@ -37,6 +39,10 @@ import ConfirmSignUp from "../Pages/Authentication/ConfirmSignUp";
         {
           path: 'confirm-sign-up',
           element: <ConfirmSignUp></ConfirmSignUp>
+        },
+        {
+          path: 'secrets',
+          element: <PrivateRoutes><Secrets></Secrets></PrivateRoutes>
         }
       ]
     },

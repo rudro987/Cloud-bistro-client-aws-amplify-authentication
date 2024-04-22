@@ -1,0 +1,17 @@
+{
+  "resourceName": "s389818060CloudBistro",
+  "policyUUID": "89818060",
+  "bucketName": "cloudbistrof9ce9362dc5c4b7bbbf3473f5885faf2",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

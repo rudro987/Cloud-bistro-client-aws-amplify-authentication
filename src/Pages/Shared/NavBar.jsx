@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Loader from "../../Components/Loader/Loader";
+import { FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
   const { user, handleSignOut, loading } = useAuth();
@@ -22,6 +23,14 @@ const NavBar = () => {
       </li>
       <li>
         <Link to="/order/salad">Order Food</Link>
+      </li>
+      <li>
+        <Link to="/">
+          <div className="flex gap-2 items-center badge badge-secondary">
+            <FaShoppingCart />
+            <p>+0</p>
+          </div>
+        </Link>
       </li>
     </>
   );

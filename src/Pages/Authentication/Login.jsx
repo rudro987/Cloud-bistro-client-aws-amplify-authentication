@@ -1,11 +1,14 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Loader from "../../Components/Loader/Loader";
 
 const Login = () => {
   const { handleSignIn, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -19,7 +22,7 @@ const Login = () => {
     try {
       const { nextStep } = await handleSignIn(data.email, data.password);
       if (nextStep.signInStep === "DONE") {
-        navigate("/");
+        navigate(from, {replace: true});
       }
     } catch (error) {
       console.error("Error logging in: ", error);
