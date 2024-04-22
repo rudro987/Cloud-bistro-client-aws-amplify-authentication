@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from "react";
 import {
   autoSignIn,
   confirmSignUp,
-  // getCurrentUser,
   signIn,
   signOut,
   signUp,
@@ -12,7 +11,7 @@ import { Hub } from "aws-amplify/utils";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = (name, email, image, password) => {
     setLoading(true);
@@ -77,6 +76,7 @@ const AuthProvider = ({ children }) => {
     return () => hubListenerCancelToken();
 
 
+
     // const currentAuthenticatedUser = async () => {
     //   try {
     //     const { username, userId, signInDetails } = await getCurrentUser();
@@ -93,6 +93,7 @@ const AuthProvider = ({ children }) => {
     // return () => currentAuthenticatedUser();
     
   }, []);
+  
 
   console.log(user);
   console.log(loading);
