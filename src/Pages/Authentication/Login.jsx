@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Loader from "../../Components/Loader/Loader";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { handleSignIn, loading } = useAuth();
@@ -22,7 +23,18 @@ const Login = () => {
     try {
       const { nextStep } = await handleSignIn(data.email, data.password);
       if (nextStep.signInStep === "DONE") {
-        navigate(from, {replace: true});
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "You are successfully logged in",
+          showConfirmButton: false,
+          timer: 1500
+        }).then((result) => {
+          console.log(result);
+          if (result) {
+            navigate(from, {replace: true});
+          }
+        });
       }
     } catch (error) {
       console.error("Error logging in: ", error);

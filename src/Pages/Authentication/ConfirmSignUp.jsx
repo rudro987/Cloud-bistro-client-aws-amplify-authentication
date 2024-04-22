@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ConfirmSignUp = () => {
   const { handleConfirmSignUp, handleAutoSignIn } = useAuth();
@@ -22,7 +23,19 @@ const ConfirmSignUp = () => {
       console.log(nextStep);
       if (nextStep.signUpStep === "COMPLETE_AUTO_SIGN_IN") {
         const { nextStep } = await handleAutoSignIn();
-        if (nextStep.signInStep === "DONE") navigate("/");
+        if (nextStep.signInStep === "DONE"){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "You are successfully logged in",
+            showConfirmButton: false,
+            timer: 1500
+          }).then((result) => {
+            if (result) {
+              navigate("/");
+            } 
+          });
+        } 
       }
     } catch (error) {
       console.error("Confirm sign up error: ", error);

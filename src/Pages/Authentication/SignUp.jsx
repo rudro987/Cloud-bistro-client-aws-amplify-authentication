@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { uploadData, getUrl } from "aws-amplify/storage";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const { handleSignUp } = useAuth();
@@ -47,7 +48,14 @@ const SignUp = () => {
           console.log(nextStep);
           switch (nextStep.signUpStep) {
             case "CONFIRM_SIGN_UP":
-              navigate("/confirm-sign-up");
+              Swal.fire({
+                title: "Do you want to save the changes?",
+                confirmButtonText: "Validate",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  navigate("/confirm-sign-up");
+                }
+              });    
               break;
             default:
               break;
