@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { uploadData, getUrl } from "aws-amplify/storage";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SignUp = () => {
   const { handleSignUp } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   const {
     register,
@@ -16,9 +18,6 @@ const SignUp = () => {
   } = useForm();
 
   const formSubmit = async (data) => {
-    console.log(data);
-    console.log(data.image[0]);
-
     try {
       const random = Math.floor(Math.random() * 10000);
       const fileName = `${random}-${data.image[0].name}`;
@@ -26,18 +25,20 @@ const SignUp = () => {
         key: fileName,
         data: data.image[0],
       }).result;
-      console.log("Succeeded: ", result);
 
       if (result.key) {
         const getUrlResult = await getUrl({
           key: result.key,
           options: {
-            accessLevel: "guest", // can be 'private', 'protected', or 'guest' but defaults to `guest`
+            accessLevel: "guest",
           },
         });
-        console.log(getUrlResult);
         const imageFile = getUrlResult.url.origin + getUrlResult.url.pathname;
-        console.log(imageFile);
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+          profilePic: imageFile,
+        };
         if (getUrlResult.url) {
           const { nextStep } = await handleSignUp(
             data.name,
@@ -45,17 +46,21 @@ const SignUp = () => {
             imageFile,
             data.password
           );
-          console.log(nextStep);
           switch (nextStep.signUpStep) {
             case "CONFIRM_SIGN_UP":
-              Swal.fire({
-                title: "Check your email for validation code",
-                confirmButtonText: "Validate",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  navigate("/confirm-sign-up");
+              axiosPublic.post("users", userInfo).then((res) => {
+                if (res.data.insertedId) {
+                  reset();
+                  Swal.fire({
+                    title: "Check your email for validation code",
+                    confirmButtonText: "Validate",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      navigate("/confirm-sign-up");
+                    }
+                  });
                 }
-              });    
+              });
               break;
             default:
               break;
@@ -65,7 +70,6 @@ const SignUp = () => {
     } catch (error) {
       console.error(error);
     }
-    reset();
   };
 
   return (
@@ -129,7 +133,7 @@ const SignUp = () => {
                   required: true,
                   minLength: 8,
                   maxLength: 20,
-                  pattern:/(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])./
+                  pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])./,
                 })}
                 type="password"
                 placeholder="Password"
@@ -150,7 +154,8 @@ const SignUp = () => {
               )}
               {errors.password?.type === "pattern" && (
                 <span className="text-red-600">
-                  Password must have one uppercase, one lowercase, one number and one special character
+                  Password must have one uppercase, one lowercase, one number
+                  and one special character
                 </span>
               )}
             </div>

@@ -51,7 +51,7 @@ import DashboardHome from "../Pages/DashBoardPages/DashboardHome/DashboardHome";
     },
     {
       path: 'dashboard',
-      element: <DashBoardLayout></DashBoardLayout>,
+      element: <PrivateRoutes><DashBoardLayout></DashBoardLayout></PrivateRoutes>,
       children: [
         {
           path:'/dashboard',
