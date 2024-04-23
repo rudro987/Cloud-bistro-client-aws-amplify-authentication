@@ -49,7 +49,7 @@ const SignUp = () => {
           switch (nextStep.signUpStep) {
             case "CONFIRM_SIGN_UP":
               Swal.fire({
-                title: "Do you want to save the changes?",
+                title: "Check your email for validation code",
                 confirmButtonText: "Validate",
               }).then((result) => {
                 if (result.isConfirmed) {

@@ -27,7 +27,7 @@ const ConfirmSignUp = () => {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: "You are successfully logged in",
+            title: "Verified! Logging you in",
             showConfirmButton: false,
             timer: 1500
           }).then((result) => {

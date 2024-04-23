@@ -5,7 +5,7 @@ import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const { handleSignIn, loading } = useAuth();
+  const { handleSignIn, loading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,7 +14,6 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -30,7 +29,6 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500
         }).then((result) => {
-          console.log(result);
           if (result) {
             navigate(from, {replace: true});
           }
@@ -39,10 +37,9 @@ const Login = () => {
     } catch (error) {
       console.error("Error logging in: ", error);
     }
-    reset();
   };
 
-  // if (loading) {
+  // if ((user === null) && loading) {
   //   return <Loader></Loader>;
   // }
 

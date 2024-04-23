@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
-import Loader from "../../Components/Loader/Loader";
 import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../Hooks/useCart";
 
 const NavBar = () => {
-  const { user, handleSignOut, loading } = useAuth();
+  const { user, handleSignOut, } = useAuth();
+  const { cart } = useCart();
 
   const handleLogOut = async () => {
     try {
@@ -28,7 +29,7 @@ const NavBar = () => {
         <Link to="/">
           <div className="flex gap-2 items-center badge badge-secondary">
             <FaShoppingCart />
-            <p>+0</p>
+            <p>+{cart.length}</p>
           </div>
         </Link>
       </li>
