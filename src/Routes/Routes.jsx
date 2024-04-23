@@ -10,6 +10,9 @@ import SignUp from "../Pages/Authentication/SignUp";
 import ConfirmSignUp from "../Pages/Authentication/ConfirmSignUp";
 import Secrets from "../Pages/Secrets/Secrets"
 import PrivateRoutes from "./PrivateRoutes";
+import DashBoardLayout from "../Layout/DashBoardLayout";
+import DashboardCart from "../Pages/DashBoardPages/DashboardCart/DashboardCart";
+import DashboardHome from "../Pages/DashBoardPages/DashboardHome/DashboardHome";
 
   export const router = createBrowserRouter([
     {
@@ -46,4 +49,18 @@ import PrivateRoutes from "./PrivateRoutes";
         }
       ]
     },
+    {
+      path: 'dashboard',
+      element: <DashBoardLayout></DashBoardLayout>,
+      children: [
+        {
+          path:'/dashboard',
+          element: <DashboardHome></DashboardHome>
+        },
+        {
+          path: 'cart',
+          element: <DashboardCart></DashboardCart>
+        }
+      ]
+    }
   ]);
