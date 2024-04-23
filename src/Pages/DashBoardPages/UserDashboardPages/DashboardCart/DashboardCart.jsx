@@ -1,8 +1,9 @@
 import { FaTrashAlt } from "react-icons/fa";
-import Loader from "../../../Components/Loader/Loader";
-import useCart from "../../../Hooks/useCart";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+
+import Loader from "../../../../Components/Loader/Loader";
+import useCart from "../../../../Hooks/useCart";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const DashboardCart = () => {
   const { cart, refetch, isLoading } = useCart();

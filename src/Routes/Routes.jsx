@@ -11,8 +11,9 @@ import ConfirmSignUp from "../Pages/Authentication/ConfirmSignUp";
 import Secrets from "../Pages/Secrets/Secrets"
 import PrivateRoutes from "./PrivateRoutes";
 import DashBoardLayout from "../Layout/DashBoardLayout";
-import DashboardCart from "../Pages/DashBoardPages/DashboardCart/DashboardCart";
-import DashboardHome from "../Pages/DashBoardPages/DashboardHome/DashboardHome";
+import DashboardHome from "../Pages/DashBoardPages/UserDashboardPages/DashboardHome/DashboardHome";
+import DashboardCart from "../Pages/DashBoardPages/UserDashboardPages/DashboardCart/DashboardCart";
+
 
   export const router = createBrowserRouter([
     {
