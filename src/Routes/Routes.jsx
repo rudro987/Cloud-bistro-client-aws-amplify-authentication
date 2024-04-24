@@ -22,6 +22,7 @@ import UserHome from "../Pages/DashBoardPages/UserDashboardPages/UserHome";
 import UserReservations from "../Pages/DashBoardPages/UserDashboardPages/UserReservations";
 import UserBookings from "../Pages/DashBoardPages/UserDashboardPages/UserBookings";
 import AddReview from "../Pages/DashBoardPages/UserDashboardPages/AddReview";
+import AdminRoute from "./AdminRoute";
 
 
   export const router = createBrowserRouter([
@@ -92,23 +93,23 @@ import AddReview from "../Pages/DashBoardPages/UserDashboardPages/AddReview";
         // Admin dashboard routes
         {
           path:'admin-home',
-          element: <AdminHome></AdminHome>
+          element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
         },
         {
           path:'add-items',
-          element: <AddItem></AddItem>
+          element: <AdminRoute><AddItem></AddItem></AdminRoute>
         },
         {
           path:'manage-items',
-          element: <ManageItems></ManageItems>
+          element: <AdminRoute><ManageItems></ManageItems></AdminRoute>
         },
         {
           path:'manage-bookings',
-          element: <ManageBookings></ManageBookings>
+          element: <AdminRoute><ManageBookings></ManageBookings></AdminRoute>
         },
         {
           path:'all-users',
-          element: <AllUsers></AllUsers>
+          element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
         },
       ]
     }
