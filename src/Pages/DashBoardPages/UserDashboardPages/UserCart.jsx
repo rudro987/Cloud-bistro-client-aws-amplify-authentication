@@ -1,11 +1,11 @@
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-import Loader from "../../../../Components/Loader/Loader";
-import useCart from "../../../../Hooks/useCart";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import Loader from "../../../Components/Loader/Loader";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useCart from "../../../Hooks/useCart";
 
-const DashboardCart = () => {
+const UserCart = () => {
   const { cart, refetch, isLoading } = useCart();
   const axiosSecure = useAxiosSecure();
   const totalPrice = cart.reduce(
@@ -95,4 +95,4 @@ const DashboardCart = () => {
   );
 };
 
-export default DashboardCart;
+export default UserCart;

@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {
   FaAd,
+  FaBook,
   FaCalendar,
   FaEnvelope,
   FaHome,
@@ -38,7 +39,7 @@ const DashBoardMenu = () => {
           </li>
           <li>
             <NavLink to="/dashboard/manage-bookings">
-              <FaAd></FaAd> Manage Bookings
+              <FaBook></FaBook> Manage Bookings
             </NavLink>
           </li>
           <li>
