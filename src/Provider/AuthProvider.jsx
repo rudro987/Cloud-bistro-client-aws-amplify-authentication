@@ -7,11 +7,13 @@ import {
   signUp,
 } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
+import useAxiosPublic from '../Hooks/useAxiosPublic'
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
 
   const handleSignUp = (name, email, image, password) => {
     setLoading(true);
@@ -64,10 +66,15 @@ const AuthProvider = ({ children }) => {
           );
           console.log("user signed in");
           setUser(payload.data.signInDetails.loginId);
+          axiosPublic.post('/jwt', {email: payload.data.signInDetails.loginId})
+        .then(res => {
+          localStorage.setItem('access-token', res.data.token)
+        })        
           setLoading(false);
           break;
         case "signedOut":
           localStorage.removeItem("userData");
+          localStorage.removeItem('access-token');
           console.log("user signed out");
           setUser(null);
           setLoading(false);
@@ -95,7 +102,7 @@ const AuthProvider = ({ children }) => {
     // }
     // currentAuthenticatedUser();
     // return () => currentAuthenticatedUser();
-  }, []);
+  }, [axiosPublic]);
 
   console.log(user);
   console.log(loading);

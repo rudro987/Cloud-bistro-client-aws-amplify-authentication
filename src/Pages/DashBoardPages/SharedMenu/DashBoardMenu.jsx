@@ -12,10 +12,11 @@ import {
   FaUtensils,
 } from "react-icons/fa";
 import useCart from "../../../Hooks/useCart";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const DashBoardMenu = () => {
   const { cart } = useCart();
-  const isAdmin = true;
+  const { isAdmin } = useAdmin();
 
   return (
     <ul className="menu">
