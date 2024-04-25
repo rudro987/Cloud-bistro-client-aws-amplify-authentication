@@ -1,17 +1,61 @@
+import { getUrl, uploadData } from "aws-amplify/storage";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
 import { FaUtensils } from "react-icons/fa";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const AddItem = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
+    reset
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const axiosSecure = useAxiosSecure();
+
+  const onSubmit = async (data) => {
+    const random = Math.floor(Math.random() * 10000);
+    const fileName = `${random}-${data.image[0].name}`;
+    const result = await uploadData({
+      key: fileName,
+      data: data.image[0],
+    }).result;
+
+    if (result.key) {
+      const getUrlResult = await getUrl({
+        key: result.key,
+        options: {
+          accessLevel: "guest",
+        },
+      });
+      const imageFile = getUrlResult.url.origin + getUrlResult.url.pathname;
+      const itemInfo = {
+        name: data.name,
+        category: data.category,
+        price: data.price,
+        receipe: data.receipe,    
+        image: imageFile,
+      };
+      if (getUrlResult.url) {
+        // Post item data to server
+        console.log(itemInfo);
+        const res = await axiosSecure.post('/add-item', itemInfo);
+        console.log(res.data);
+        if(res.data.insertedId){
+          reset();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "New menu item added",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      }
+    }
+
   };
 
   return (
@@ -29,7 +73,7 @@ const AddItem = () => {
             <input
               type="text"
               placeholder="Receipe Name"
-              {...register("name", {required: true})}
+              {...register("name", { required: true })}
               className="input input-bordered w-full"
             />
           </div>
@@ -41,10 +85,11 @@ const AddItem = () => {
                 <span className="label-text">Category *</span>
               </label>
               <select
-                {...register("category", {required: true})}
+                defaultValue="default"
+                {...register("category", { required: true })}
                 className="select select-bordered w-full"
               >
-                <option disabled selected>
+                <option disabled value="default">
                   Select a category
                 </option>
                 <option value="salad">Salad</option>
@@ -63,7 +108,7 @@ const AddItem = () => {
               <input
                 type="numebr"
                 placeholder="Price"
-                {...register("price", {required: true})}
+                {...register("price", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -73,11 +118,19 @@ const AddItem = () => {
             <label className="label">
               <span className="label-text">Receipe Details</span>
             </label>
-            <textarea {...register("receipe", {required: true})} className="textarea textarea-bordered h-24" placeholder="Receipe Details"></textarea>
+            <textarea
+              {...register("receipe", { required: true })}
+              className="textarea textarea-bordered h-24"
+              placeholder="Receipe Details"
+            ></textarea>
           </div>
 
           <div>
-          <input {...register("image", {required: true})} type="file" className="file-input w-full mb-6" />
+            <input
+              {...register("image", { required: true })}
+              type="file"
+              className="file-input w-full mb-6"
+            />
           </div>
 
           <button className="btn btn-accent">
