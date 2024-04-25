@@ -13,10 +13,15 @@ import {
 } from "react-icons/fa";
 import useCart from "../../../Hooks/useCart";
 import useAdmin from "../../../Hooks/useAdmin";
+import Loader from "../../../Components/Loader/Loader";
 
 const DashBoardMenu = () => {
   const { cart } = useCart();
-  const { isAdmin } = useAdmin();
+  const { isAdmin, isAdminLoading } = useAdmin();
+
+  if(isAdminLoading){
+    return <Loader></Loader>
+  }
 
   return (
     <ul className="menu">

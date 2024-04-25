@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import Loader from "../../../Components/Loader/Loader";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useCart from "../../../Hooks/useCart";
+import { Link } from "react-router-dom";
 
 const UserCart = () => {
   const { cart, refetch, isLoading } = useCart();
@@ -39,8 +40,8 @@ const UserCart = () => {
     });
   };
 
-  if(isLoading){
-    return <Loader></Loader>
+  if (isLoading) {
+    return <Loader></Loader>;
   }
 
   return (
@@ -48,7 +49,9 @@ const UserCart = () => {
       <div className="flex justify-evenly mb-8">
         <h2 className="text-4xl">Items: {cart.length}</h2>
         <h2 className="text-4xl">Total price: {totalPrice}</h2>
-        <button className="btn btn-accent">Pay</button>
+        { cart.length ? <Link to="/dashboard/payment">
+          <button className="btn btn-accent">Pay</button>
+        </Link> : <button disabled className="btn btn-accent">Pay</button>}
       </div>
 
       <div className="overflow-x-auto">

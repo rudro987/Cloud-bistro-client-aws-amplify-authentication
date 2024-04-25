@@ -23,6 +23,8 @@ import UserReservations from "../Pages/DashBoardPages/UserDashboardPages/UserRes
 import UserBookings from "../Pages/DashBoardPages/UserDashboardPages/UserBookings";
 import AddReview from "../Pages/DashBoardPages/UserDashboardPages/AddReview";
 import AdminRoute from "./AdminRoute";
+import UpdateItem from "../Pages/DashBoardPages/AdminDashBoardPages/UpdateItem";
+import Payment from "../Pages/DashBoardPages/UserDashboardPages/Payment";
 
 
   export const router = createBrowserRouter([
@@ -82,6 +84,10 @@ import AdminRoute from "./AdminRoute";
           element: <UserCart></UserCart>
         },
         {
+          path: 'payment',
+          element: <Payment></Payment>
+        },
+        {
           path: 'add-review',
           element: <AddReview></AddReview>
         },
@@ -98,6 +104,11 @@ import AdminRoute from "./AdminRoute";
         {
           path:'add-items',
           element: <AdminRoute><AddItem></AddItem></AdminRoute>
+        },
+        {
+          path: 'updateItem/:id',
+          element: <AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
+          loader: ({params}) => fetch(`http://localhost:5000/menu/${params.id}`)
         },
         {
           path:'manage-items',
