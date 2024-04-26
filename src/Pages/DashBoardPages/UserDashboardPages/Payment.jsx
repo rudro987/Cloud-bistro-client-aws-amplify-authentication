@@ -1,24 +1,24 @@
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
-import { loadStripe } from '@stripe/stripe-js';
-import {
-    PaymentElement,
-    Elements,
-  } from '@stripe/react-stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
 
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK);
 
 const Payment = () => {
-    return (
-        <div>
-            <SectionTitle heading="Payment" subHeading="Please pay your due"></SectionTitle>
-            <div>
-                <Elements stripe={stripePromise}>
-                
-                </Elements>
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <SectionTitle
+        heading="Payment"
+        subHeading="Please pay your due"
+      ></SectionTitle>
+      <div>
+        <Elements stripe={stripePromise}>
+          <CheckoutForm></CheckoutForm>
+        </Elements>
+      </div>
+    </div>
+  );
 };
 
 export default Payment;
