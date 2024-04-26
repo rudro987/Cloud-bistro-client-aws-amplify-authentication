@@ -25,6 +25,7 @@ import AddReview from "../Pages/DashBoardPages/UserDashboardPages/AddReview";
 import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Pages/DashBoardPages/AdminDashBoardPages/UpdateItem";
 import Payment from "../Pages/DashBoardPages/UserDashboardPages/Payment";
+import PaymentHistory from "../Pages/DashBoardPages/UserDashboardPages/PaymentHistory";
 
 
   export const router = createBrowserRouter([
@@ -86,6 +87,10 @@ import Payment from "../Pages/DashBoardPages/UserDashboardPages/Payment";
         {
           path: 'payment',
           element: <Payment></Payment>
+        },
+        {
+          path: 'payment-history',
+          element: <PaymentHistory></PaymentHistory>
         },
         {
           path: 'add-review',
