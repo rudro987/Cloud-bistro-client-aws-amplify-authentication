@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { FaShoppingCart } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
+import useAdmin from "../../Hooks/useAdmin";
+import ProgressBar from "../../Components/Loader/ProgressBar"
 
 const NavBar = () => {
-  const { user, handleSignOut, } = useAuth();
+  const { user, handleSignOut } = useAuth();
+  const { isAdmin, isAdminLoading } = useAdmin();
   const { cart } = useCart();
 
   const handleLogOut = async () => {
@@ -25,6 +28,16 @@ const NavBar = () => {
       <li>
         <Link to="/order/salad">Order Food</Link>
       </li>
+      {
+        user && isAdmin && <li>
+        <Link to="/dashboard/admin-home"> Admin Dashboard</Link>
+      </li>
+      }
+      {
+        user && !isAdmin && <li>
+        <Link to="/dashboard/user-home">User Dashboard</Link>
+      </li>
+      }
       <li>
         <Link to="/dashboard">
           <div className="flex gap-2 items-center badge badge-secondary">
@@ -36,9 +49,9 @@ const NavBar = () => {
     </>
   );
 
-  // if (loading) {
-  //   return <Loader></Loader>;
-  // }
+  if(isAdminLoading){
+    return <ProgressBar />
+  }
 
   return (
     <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-2xl ">
