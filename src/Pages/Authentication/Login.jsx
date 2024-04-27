@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
-import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const { handleSignIn, loading, user } = useAuth();
+  const { handleSignIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,7 +17,6 @@ const Login = () => {
   } = useForm();
 
   const formSubmit = async (data) => {
-    console.log(data);
     try {
       const { nextStep } = await handleSignIn(data.email, data.password);
       if (nextStep.signInStep === "DONE") {
@@ -38,10 +36,6 @@ const Login = () => {
       console.error("Error logging in: ", error);
     }
   };
-
-  // if ((user === null) && loading) {
-  //   return <Loader></Loader>;
-  // }
 
   return (
     <div className="hero min-h-screen bg-base-200">

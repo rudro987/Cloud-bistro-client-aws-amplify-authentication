@@ -8,12 +8,12 @@ const AdminRoute = ({ children }) => {
     const { isAdmin, isAdminLoading} = useAdmin();
     const location = useLocation();
 
-    if(isAdminLoading) {
-        return <Loader></Loader>;
-    }
-
     if(user && isAdmin){
         return children;
+    }
+
+    if(isAdminLoading) {
+        return <Loader></Loader>;
     }
 
 
