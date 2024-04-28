@@ -3,11 +3,10 @@ import useAuth from "../../Hooks/useAuth";
 import { FaShoppingCart } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
 import useAdmin from "../../Hooks/useAdmin";
-import ProgressBar from "../../Components/Loader/ProgressBar"
 
 const NavBar = () => {
-  const { user, handleSignOut } = useAuth();
-  const { isAdmin, isAdminLoading } = useAdmin();
+  const { user, handleSignOut, loading } = useAuth();
+  const { isAdmin } = useAdmin();
   const { cart } = useCart();
 
   const handleLogOut = async () => {
@@ -49,10 +48,6 @@ const NavBar = () => {
     </>
   );
 
-  if(isAdminLoading){
-    return <ProgressBar />
-  }
-
   return (
     <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-2xl ">
       <div className="navbar-start">
@@ -87,7 +82,11 @@ const NavBar = () => {
       </div>
       <div className="navbar-end">
         <div className="flex gap-5">
-          {user === null ? (
+          {
+            loading ? (
+              <span className="loading loading-dots loading-lg"></span>
+            ) : (
+              user === null ? (
             <>
               <Link to="/login">
                 <button className="btn btn-accent">Login</button>
@@ -100,7 +99,9 @@ const NavBar = () => {
             <button className="btn btn-success" onClick={handleLogOut}>
               Logout
             </button>
-          )}
+          )
+            )
+          }
         </div>
       </div>
     </div>

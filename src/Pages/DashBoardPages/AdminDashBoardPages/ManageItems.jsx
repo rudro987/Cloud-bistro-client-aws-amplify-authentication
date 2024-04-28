@@ -4,9 +4,10 @@ import useMenu from "../../../Hooks/useMenu";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import Loader from "../../../Components/Loader/Loader";
 
 const ManageItems = () => {
-  const [menu, , refetch] = useMenu();
+  const [menu, fetching, refetch] = useMenu();
   const axiosSecure = useAxiosSecure();
 
   const handleDeleteItem = (item) => {
@@ -34,6 +35,10 @@ const ManageItems = () => {
       }
     });
   };
+
+  if(fetching){
+    return <Loader />
+  } 
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
-import Loader from "../Components/Loader/Loader";
 import useAdmin from "../Hooks/useAdmin";
+import HeadBodyGrid from "../Components/Loader/HeadBodyLoader";
 
 const PrivateRoutes = ({ children }) => {
   const { user, loading } = useAuth();
@@ -13,7 +13,7 @@ const PrivateRoutes = ({ children }) => {
   }
 
   if (loading || isAdminLoading) {
-    return <Loader></Loader>;
+    return <HeadBodyGrid />;
   }
 
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;

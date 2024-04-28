@@ -72,6 +72,7 @@ const Login = () => {
                 {...register("password", { required: true })}
                 type="password"
                 placeholder="password"
+                autoComplete="current-password"
                 className="input input-bordered"
               />
               {errors.password && (
