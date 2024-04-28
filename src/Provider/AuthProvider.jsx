@@ -13,7 +13,7 @@ import useAxiosPublic from "../Hooks/useAxiosPublic";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const axiosPublic = useAxiosPublic();
 
   const handleSignUp = (name, email, image, password) => {
@@ -83,7 +83,7 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("access-token");
           console.log("user signed out");
           setUser(null);
-          setLoading(true);
+          setLoading(false);
       }else{
         setLoading(false);
       }
@@ -115,7 +115,7 @@ const AuthProvider = ({ children }) => {
   //         localStorage.removeItem("access-token");
   //         console.log("user signed out");
   //         setUser(null);
-  //         setLoading(true);
+  //         setLoading(false);
   //         break;
   //       case "signInWithRedirect":
   //         setLoading(false);
