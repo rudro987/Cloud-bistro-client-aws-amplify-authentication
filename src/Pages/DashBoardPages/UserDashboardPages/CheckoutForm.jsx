@@ -58,7 +58,7 @@ const CheckoutForm = () => {
         payment_method: {
           card: card,
           billing_details: {
-            email: user || "anonymous",
+            email: user?.email || "anonymous",
           },
         },
       });
@@ -74,7 +74,7 @@ const CheckoutForm = () => {
         //send the payment information to the server
 
         const payment = {
-          email: user,
+          email: user?.email,
           transactionId: paymentIntent.id,
           price: totalPrice,
           date: new Date(),

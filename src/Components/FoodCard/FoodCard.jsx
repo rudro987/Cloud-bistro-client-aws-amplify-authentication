@@ -18,7 +18,7 @@ const FoodCard = ({ item }) => {
      //asdasd 
      const cartItem = {
       menuId: _id,
-      email:user,
+      email:user.email,
       name,
       image,
       price

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import {
   autoSignIn,
   confirmSignUp,
+  fetchUserAttributes,
   signIn,
   signOut,
   signUp,
@@ -57,43 +58,83 @@ const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUserData));
       setLoading(false);
     }
-    const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+    const hubListenerCancelToken = Hub.listen("auth", async ({ payload }) => {
       
-      switch (payload.event) {
-        case "signedIn":
-          localStorage.setItem(
-            "userData",
-            JSON.stringify(payload.data.signInDetails.loginId)
-          );
-          console.log("user signed in");
-          axiosPublic
-            .post("/jwt", { email: payload.data.signInDetails.loginId })
-            .then((res) => {
-              if (res.data.token) {
-                localStorage.setItem("access-token", res.data.token);
-                setUser(payload.data.signInDetails.loginId);
-                setLoading(false);
-              }
-            });
-
-          break;
-        case "signedOut":
-          localStorage.removeItem("userData");
+      if(payload.event === 'signedIn'){
+        const currentUser = await fetchUserAttributes();
+        console.log(currentUser);
+        console.log(currentUser.email);
+        localStorage.setItem(
+          "userData",
+          JSON.stringify(currentUser)
+        );
+        console.log("user signed in");
+        axiosPublic
+          .post("/jwt", { email: payload.data.signInDetails.loginId })
+          .then((res) => {
+            if (res.data.token) {
+              localStorage.setItem("access-token", res.data.token);
+              setUser(currentUser);
+              setLoading(false);
+            }
+          });
+      }else if(payload.event === 'signedOut'){
+        localStorage.removeItem("userData");
           localStorage.removeItem("access-token");
           console.log("user signed out");
           setUser(null);
           setLoading(true);
-          break;
-        case "signInWithRedirect":
-          setLoading(false);
-          break;
-        default:
-          break;
+      }else{
+        setLoading(false);
       }
     });
     return () => hubListenerCancelToken();
 
   }, [axiosPublic]);
+
+
+  //Another way for handling auth flow....
+
+  // useEffect(() => {
+  //   const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+  //     switch (payload.event) {
+  //       case "signedIn":
+  //         console.log("user signed in");
+  //         axiosPublic
+  //           .post("/jwt", { email: payload.data.signInDetails.loginId })
+  //           .then(async (res) => {
+  //             if (res.data.token) {
+  //               localStorage.setItem("access-token", res.data.token);
+  //               await currentUser();
+  //               setLoading(false);
+  //             }
+  //           });
+
+  //         break;
+  //       case "signedOut":
+  //         localStorage.removeItem("access-token");
+  //         console.log("user signed out");
+  //         setUser(null);
+  //         setLoading(true);
+  //         break;
+  //       case "signInWithRedirect":
+  //         setLoading(false);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   });
+  //     currentUser();
+  //   return () => hubListenerCancelToken();
+
+  // }, [axiosPublic]);
+    
+
+  // const currentUser = async () => {
+  //     const userAttributes = await fetchUserAttributes();
+  //     setUser(userAttributes.email);
+  //     setLoading(false);
+  // }
 
   console.log(user);
   console.log(loading);

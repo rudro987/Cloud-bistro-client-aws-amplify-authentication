@@ -19,6 +19,7 @@ const ConfirmSignUp = () => {
         data.email,
         data.validationCode
       );
+      console.log(nextStep);
       if (nextStep.signUpStep === "COMPLETE_AUTO_SIGN_IN") {
         const { nextStep } = await handleAutoSignIn();
         if (nextStep.signInStep === "DONE"){

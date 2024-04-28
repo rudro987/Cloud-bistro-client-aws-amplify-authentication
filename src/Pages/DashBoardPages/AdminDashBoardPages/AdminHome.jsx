@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import {
   FaBook,
@@ -7,14 +6,13 @@ import {
   FaShoppingBasket,
   FaUsers,
 } from "react-icons/fa";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,PieChart, Pie, Sector, ResponsiveContainer, Legend } from "recharts";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,PieChart, Pie, Legend } from "recharts";
 
 const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const AdminHome = () => {
-  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const { data: stats = {} } = useQuery({
